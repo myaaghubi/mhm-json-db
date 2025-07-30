@@ -4,7 +4,7 @@
 
 ### Composer
 
-Include it like:
+Add `composer.json` like:
 
 ```json
 {
@@ -45,26 +45,28 @@ Include it like:
 ### Code
 
 ```php
+    $db = new MHMJsonDB('mydb.json', $pathToDB);
+
     // select all: array of records or an empty array
-    var_dump($this->db->select());
+    var_dump($db->select());
 
     // select one or null
-    $result = $this->db->selectOne(['name' => 'Moham']);
+    $result = $db->selectOne(['name' => 'Moham']);
 
-    // insert
-    $insertedRecord = $this->db->insert(['name' => 'Moham', 'email' => '...']);
+    // returns the whole record as array
+    $insertedRecord = $db->insert(['name' => 'Moham', 'email' => '...']);
 
     // delete: returns the number of deleted
-    $deleted = $this->db->delete(['id' => $insertedRecord['id']]);
+    $deleted = $db->delete(['id' => $insertedRecord['id']]);
 
     // delete all
-    $deleted = $this->db->delete();
+    $deleted = $db->delete();
 ```
 
 ### Test
 
-Just run:
-`./vendor/bin/phpunit tests`
+Just run
+`./vendor/bin/phpunit`
 
 ### Production
 
