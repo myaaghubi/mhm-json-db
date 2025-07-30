@@ -1,0 +1,29 @@
+{    
+    "name": "myaaghubi/mhm-json-db",
+    "description": "A lite JSON base database for PHP.",
+    "type": "project",
+	"license": "LICENSE.md",
+	"authors": [
+		{
+			"name": "Mohammad Yaaghubi",
+            "email": "m.yaaghubi.abc@gmail.com"
+		}
+	],
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11"
+    },
+    "autoload": {
+        "psr-4": {
+            "MyClass\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MHMJsonDB\\": "src/",
+            "MHMJsonDB\\Tests\\": "tests/"
+        }
+    }
+}
