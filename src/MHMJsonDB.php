@@ -15,7 +15,7 @@ class MHMJsonDB
             $path = dirname(__FILE__, 2);
         }
 
-        $this->filePath = ltrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $fileName;
+        $this->filePath = rtrim($path, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR . $fileName;
 
         if (!file_exists($this->filePath)) {
             file_put_contents($this->filePath, json_encode([]));
@@ -29,30 +29,35 @@ class MHMJsonDB
     }
 
     // Write data to the JSON file
-    private function writeData(array $data)
+    private function writeData(array $data): false|int
     {
-        file_put_contents($this->filePath, json_encode($data, JSON_PRETTY_PRINT));
+        return file_put_contents($this->filePath, json_encode($data, JSON_PRETTY_PRINT));
     }
 
     // Insert a new record
-    public function insert(array $record)
+    public function insert(array $record): false|array
     {
         $data = $this->readData();
         $record['id'] = uniqid(); // Generate a unique ID
         $data[] = $record;
-        $this->writeData($data);
-        return $record;
+        if ($this->writeData($data)) {
+            return $record;
+        }
+        return false;
     }
 
     // Insert a new record
-    public function insertTable(string $table, array $record)
+    public function insertTable(string $table, array $record): false|array
     {
         $data = $this->readData();
         $record['id'] = uniqid(); // Generate a unique ID
-        $record_[$table] = $record; 
+        $record_[$table] = $record;
         $data[] = $record_;
-        $this->writeData($data);
-        return $record_;
+
+        if ($this->writeData($data)) {
+            return $record_;
+        }
+        return false;
     }
 
     public function selectOne(array $whereColumnsData = []): array|null
@@ -141,6 +146,9 @@ class MHMJsonDB
     public function delete(array $whereColumnsData = []): int
     {
         $data = $this->readData();
+        if (empty($data)) {
+            return 0;
+        }
 
         $deletesHappened = 0;
         $data = array_filter($data, function ($record) use ($whereColumnsData, &$deletesHappened) {
@@ -149,7 +157,7 @@ class MHMJsonDB
                     return true;
                 }
             }
-            
+
             $deletesHappened++;
             return false;
         });
