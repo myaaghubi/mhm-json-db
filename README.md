@@ -11,7 +11,7 @@ Add `composer.json` like:
   "name": "myaaghubi/",
   "description": "",
   "type": "project",
-  "license": "LICENSE.md",
+  "license": "proprietary",
   "authors": [
     {
       "name": "Mohammad Yaaghubi",
@@ -72,3 +72,7 @@ Just run
 
 Run `composer install --no-dev`
 Run `composer dump`
+
+## License
+
+This project is licensed under a proprietary license. All rights reserved. Unauthorized copying, distribution, or modification of this project is strictly prohibited.
