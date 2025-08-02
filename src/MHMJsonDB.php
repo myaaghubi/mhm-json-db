@@ -83,7 +83,7 @@ class MHMJsonDB
     }
 
     // empty $whereColumnsData => select all
-    public function select(array $whereColumnsData = []): array|null
+    public function select(array $whereColumnsData = []): array
     {
         $data = $this->readData();
         if (empty($whereColumnsData)) {

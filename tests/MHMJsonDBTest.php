@@ -43,6 +43,12 @@ class MHMJsonDBTest extends TestCase
 
     public function testSelect()
     {
+        $result = $this->db->select(['name' => 'not-exists']);
+        $this->assertCount(0, $result);
+
+        $result = $this->db->selectOne(['name' => 'not-exists']);
+        $this->assertNull($result);
+
         $this->db->insert(['name' => 'dodo', 'email' => 'bob@example.com']);
         $this->db->insert(['name' => 'dodo', 'email' => 'charlie@example.com']);
 
