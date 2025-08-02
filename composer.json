@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "MyClass\\": "src/"
+            "MHMJsonDB\\": "src/"
         }
     },
     "autoload-dev": {
