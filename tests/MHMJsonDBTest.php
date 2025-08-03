@@ -41,6 +41,34 @@ class MHMJsonDBTest extends TestCase
         $this->assertEquals($record['name'], $result['test']['name']);
     }
 
+    public function testSortByKeyValue()
+    {
+        $data = [
+            [
+                "name"=> "update1",
+                "email"=> "update1@domain",
+                "id"=> "688f7e9895fe1"
+            ], [
+                "name"=> "update2",
+                "email"=> "update2@domain",
+                "id"=> "688f7e9895fe2"
+            ], [
+                "name"=> "update3",
+                "email"=> "update3@domain",
+                "id"=> "688f7e9895fe3"
+            ]
+        ];
+
+        $this->db->sortByKeyValue($data, 'name'); // true by default
+        $this->assertEquals('update3', $data[0]['name']);
+
+        $this->db->sortByKeyValue($data, 'name', false);
+        $this->assertEquals('update1', $data[0]['name']);
+
+        $this->db->sortByKeyValue($data, 'id', true);
+        $this->assertEquals('update3', $data[0]['name']);
+    }
+
     public function testSelect()
     {
         $result = $this->db->select(['name' => 'not-exists']);
@@ -51,13 +79,20 @@ class MHMJsonDBTest extends TestCase
 
         $this->db->insert(['name' => 'dodo', 'email' => 'bob@example.com']);
         $this->db->insert(['name' => 'dodo', 'email' => 'charlie@example.com']);
+        
+        //-------- sort decreasing
+        $result = $this->db->selectOne(['name' => 'dodo'], 'email', true);
+        $this->assertEquals('charlie@example.com', $result['email']);
 
-        $result = $this->db->selectOne(['name' => 'dodo']);
-        $this->assertEquals('bob@example.com', $result['email']);
-
-        $result = $this->db->select(['name' => 'dodo']);
+        $result = $this->db->select(['name' => 'dodo'], 'email', true);
         $this->assertCount(2, $result);
-        $this->assertEquals('charlie@example.com', $result[1]['email']);
+        $this->assertEquals('charlie@example.com', $result[0]['email']);
+
+        //-------- sort increasing
+        $result = $this->db->select(['name' => 'dodo'], 'email', false);
+        $this->assertCount(2, $result);
+        $this->assertEquals('bob@example.com', $result[0]['email']);
+        //-------- sort
 
         $this->db->insert(['name' => 'dodopo', 'email' => 'dodopo@example.com']);
         $this->db->insert(['name' => 'dodoso', 'email' => 'dodoso@example.com']);
@@ -134,7 +169,7 @@ class MHMJsonDBTest extends TestCase
         $this->assertCount(0, $selected);
 
         $selected = $this->db->selectOne();
-        $this->assertCount(false, $selected);
+        $this->assertEquals(false, $selected);
     }
 
     public function testUnAllowedChars()

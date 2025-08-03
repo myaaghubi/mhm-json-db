@@ -60,30 +60,18 @@ class MHMJsonDB
         return false;
     }
 
-    public function selectOne(array $whereColumnsData = []): array|null
+    public function selectOne(array $whereColumnsData = [], string $sortByKey='', bool $sortDecreasing=true): array|null
     {
-        $data = $this->readData();
-        if (empty($whereColumnsData)) {
-            return $data;
+        $selected = $this->select($whereColumnsData, $sortByKey, $sortDecreasing);
+        if (empty($selected)) {
+            return null;
         }
 
-        foreach ($data as $record) {
-            $flag = true;
-            foreach ($whereColumnsData as $column => $value) {
-                if ($record[$column] != $value) {
-                    $flag = false;
-                    break;
-                }
-            }
-            if ($flag) {
-                return $record;
-            }
-        }
-        return null;
+        return $selected[0];
     }
 
     // empty $whereColumnsData => select all
-    public function select(array $whereColumnsData = []): array
+    public function select(array $whereColumnsData = [], string $sortByKey='', bool $sortDecreasing=true): array
     {
         $data = $this->readData();
         if (empty($whereColumnsData)) {
@@ -104,6 +92,11 @@ class MHMJsonDB
                 $selected[] = $record;
             }
         }
+
+        if (!empty($sortByKey)) {
+            $this->sortByKeyValue($selected, $sortByKey, $sortDecreasing);
+        } 
+
         return $selected;
     }
 
@@ -164,5 +157,16 @@ class MHMJsonDB
         $this->writeData(array_values($data));
 
         return $deletesHappened;
+    }
+
+    public function sortByKeyValue(array &$array, string $key, bool $decreasing = true): void
+    {
+        usort($array, function ($a, $b) use ($key, $decreasing) {
+            if ($decreasing) {
+                return strcmp($b[$key], $a[$key]);
+            } else {
+                return strcmp($a[$key], $b[$key]);
+            }
+        });
     }
 }
