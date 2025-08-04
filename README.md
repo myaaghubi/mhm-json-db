@@ -1,4 +1,6 @@
 # MHM JSON Database
+[![Composer Testing](https://github.com/myaaghubi/mhm-json-db/actions/workflows/php.yml/badge.svg?branch=main)](https://github.com/myaaghubi/mhm-json-db/actions/workflows/php.yml) 
+[![PHP Version Tested](https://img.shields.io/badge/PHP-8.4-blue)](https://img.shields.io/badge/PHP-8.4-blue)
 
 ## Usage
 
