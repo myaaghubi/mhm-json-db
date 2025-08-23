@@ -9,7 +9,7 @@
 For the composer, have it like:
 
 ```shell
-composer require myaaghubi/MHMJsonDB
+composer require myaaghubi/mhm-json-db
 ```
 
 ### Code
