@@ -17,16 +17,19 @@ composer require myaaghubi/mhm-json-db
 ```php
     $db = new MHMJsonDB('mydb.json', $pathToDB);
 
-    // select all: array of records or an empty array
+    // select all: array of arrays or an empty array
     var_dump($db->select());
 
-    // select one or null
+    // select multiple: array of arrays or an empty array
+    var_dump($db->select(['name' => 'Moham']));
+
+    // select one item/array or null
     $result = $db->selectOne(['name' => 'Moham']);
 
-    // returns the whole record as array
+    // returns the whole record as an array
     $insertedRecord = $db->insert(['name' => 'Moham', 'email' => '...']);
 
-    // delete: returns the number of deleted
+    // delete multiple: returns the number of deleted
     $deleted = $db->delete(['id' => $insertedRecord['id']]);
 
     // delete all
