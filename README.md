@@ -21,6 +21,7 @@ composer require myaaghubi/mhm-json-db
     var_dump($db->select());
 
     // select multiple: array of arrays or an empty array
+    // sort: $db->select(['name' => 'Moham'], 'name', true);
     var_dump($db->select(['name' => 'Moham']));
 
     // select one item/array or null
@@ -28,6 +29,9 @@ composer require myaaghubi/mhm-json-db
 
     // returns the whole record as an array
     $insertedRecord = $db->insert(['name' => 'Moham', 'email' => '...']);
+
+    // returns true or false
+    $insertedRecord = $db->update(['name' => 'Moham', ...], ['name' => 'Mohammad', ...]);
 
     // delete multiple: returns the number of deleted
     $deleted = $db->delete(['id' => $insertedRecord['id']]);
